@@ -1,18 +1,25 @@
-fetch('/api/empleados')
-  .then((response) => {
+document.addEventListener('DOMContentLoaded', async () => {
+  const empleadosDiv = document.getElementById('empleados');
+  
+  try {
+    // Hacer una solicitud fetch para obtener los datos de la API
+    const response = await fetch('/api/empleados');
+    
+    // Verificar si la respuesta es correcta (status 200)
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error('Error al obtener los datos');
     }
-    return response.json();
-  })
-  .then((data) => {
-    const empleadosList = document.getElementById('empleados');
-    data.forEach((empleado) => {
-      const listItem = document.createElement('li');
-      listItem.textContent = `ID_EMPLEADO: ${empleado.id_empleado}, NOMBRE: ${empleado.nombre}, Apellido: ${empleado.apellido}, EDAD: ${empleado.edad},SALARIO: ${empleado.salario}`;
-      empleadosList.appendChild(listItem);
-    });
-  })
-  .catch((error) => {
-    console.error('Error al obtener los datos:', error);
-  });
+
+    // Convertir la respuesta en formato JSON
+    const empleados = await response.json();
+
+    // Generar una lista de empleados con las columnas necesarias
+    empleadosDiv.innerHTML = '<ul>' + empleados.map(emp => 
+      `<li>ID: ${emp.id_empleados}, Nombre: ${emp.nombre}, Apellido: ${emp.apellido}, Edad: ${emp.edad}, Salario: ${emp.salario}</li>`
+    ).join('') + '</ul>';
+  } catch (error) {
+    // Si ocurre un error, mostrar un mensaje en el div
+    empleadosDiv.textContent = 'No se pudieron obtener los datos.';
+    console.error('Error:', error);
+  }
+});
