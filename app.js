@@ -16,7 +16,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Ruta para obtener datos de la tabla "empleados"
 app.get('/api/empleados', async (req, res) => {
   try {
+    console.log('Conectando a la base de datos...'); 
     const result = await pool.query('SELECT * FROM empleados');
+    console.log('Datos obtenidos:', result.rows);
     res.json(result.rows); // Responde con los datos en formato JSON
   } catch (error) {
     console.error('Error al obtener datos:', error);
