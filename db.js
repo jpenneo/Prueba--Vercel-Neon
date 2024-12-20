@@ -2,7 +2,7 @@ const { Pool } = require('pg');
 require('dotenv').config(); // Cargar las variables de entorno desde .env en desarrollo
 
 // Verificar que las variables de entorno estén definidas correctamente
-const requiredVars = ['DB_USER', 'DB_PASSWORD', 'DB_HOST', 'DB_PORT', 'DB_DATABASE'];
+const requiredVars = ['PGUSER', 'PGPASSWORD', 'PGHOST', 'PGPORT', 'PGDATABASE'];
 const missingVars = requiredVars.filter((key) => !process.env[key]);
 if (missingVars.length > 0) {
   console.error(`Error: Faltan las siguientes variables de entorno: ${missingVars.join(', ')}`);
@@ -14,11 +14,11 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 // Configuración del pool de conexiones de PostgreSQL
 const pool = new Pool({
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  database: process.env.DB_DATABASE,
+  user: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+  host: process.env.PGHOST,
+  port: process.env.PGPORT,
+  database: process.env.PGDATABASE,
   ssl: { rejectUnauthorized: false } // SSL solo para producción
 });
 
