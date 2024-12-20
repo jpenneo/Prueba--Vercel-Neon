@@ -1,16 +1,26 @@
 {
-  "name": "prueba--vercel-neon",
+  "name": "prueba-vercel-neon",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
+    "lint": "eslint .",
+    "format": "prettier --write .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "jpenneo",
   "license": "ISC",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jpenneo/Prueba--Vercel-Neon.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jpenneo/Prueba--Vercel-Neon/issues"
+  },
+  "homepage": "https://github.com/jpenneo/Prueba--Vercel-Neon#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
@@ -24,3 +34,4 @@
     "prettier": "^3.4.2"
   }
 }
+
