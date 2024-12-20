@@ -1,10 +1,12 @@
 const { Pool } = require('pg');
-require('dotenv').config();  // Cargar las variables de entorno desde .env en desarrollo
+require('dotenv').config(); // Cargar las variables de entorno desde .env en desarrollo
 
 // Verificar que las variables de entorno estén definidas correctamente
-if (!process.env.DB_USER || !process.env.DB_PASSWORD || !process.env.DB_HOST || !process.env.DB_PORT || !process.env.DB_DATABASE) {
-  console.error('Error: Faltan algunas variables de entorno');
-  process.exit(1); // Detiene la ejecución si falta alguna variable
+const requiredVars = ['DB_USER', 'DB_PASSWORD', 'DB_HOST', 'DB_PORT', 'DB_DATABASE'];
+const missingVars = requiredVars.filter((key) => !process.env[key]);
+if (missingVars.length > 0) {
+  console.error(`Error: Faltan las siguientes variables de entorno: ${missingVars.join(', ')}`);
+  process.exit(1);
 }
 
 // Determinar si estamos en producción (Vercel) o en desarrollo (local)
@@ -17,15 +19,17 @@ const pool = new Pool({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   database: process.env.DB_DATABASE,
-  ssl: { rejectUnauthorized: false }  // Asegura que SSL esté habilitado
+  ssl: { rejectUnauthorized: false } // SSL solo para producción
 });
+
 // Probar la conexión a la base de datos
 pool.connect((err) => {
   if (err) {
-    console.error('Error al conectar a la base de datos:', err);
+    console.error('Error al conectar a la base de datos:', err.message);
   } else {
     console.log('Conexión a la base de datos establecida.');
   }
 });
 
 module.exports = pool;
+
